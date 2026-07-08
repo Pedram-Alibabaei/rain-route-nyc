@@ -1,4 +1,5 @@
 import sys
+from html import escape
 from pathlib import Path
 
 import pandas as pd
@@ -240,16 +241,14 @@ def render_summary_metrics(summary):
         ("Fahrpreis", format_money(summary.get("avg_fare", 0))),
         ("Trinkgeld", format_money(summary.get("avg_tip", 0))),
     ]
-    cards = "\n".join(
-        f"""
-        <div class="rr-metric-card">
-            <div class="rr-metric-label">{label}</div>
-            <div class="rr-metric-value">{value}</div>
-        </div>
-        """
+    cards = "".join(
+        '<div class="rr-metric-card">'
+        f'<div class="rr-metric-label">{escape(str(label))}</div>'
+        f'<div class="rr-metric-value">{escape(str(value))}</div>'
+        "</div>"
         for label, value in metrics
     )
-    st.markdown(f'<div class="rr-metric-grid">{cards}</div>', unsafe_allow_html=True)
+    st.html(f'<div class="rr-metric-grid">{cards}</div>')
 
 
 def weather_distribution(db, query):
