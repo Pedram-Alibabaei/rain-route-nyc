@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.pytest_cache/
+.streamlit/
+*.inspect.ndjson
+*.log
+data/raw/*/
+data/processed/*/
+!data/raw/.gitkeep
+!data/processed/.gitkeep

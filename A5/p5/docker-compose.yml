@@ -1,0 +1,27 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: p5-taxi-weather-mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  neo4j:
+    image: neo4j:5.26-community
+    container_name: p5-taxi-weather-neo4j
+    ports:
+      - "7476:7474"
+      - "7689:7687"
+    environment:
+      NEO4J_AUTH: neo4j/taxiweatherpass
+      NEO4J_server_memory_heap_initial__size: 1G
+      NEO4J_server_memory_heap_max__size: 2G
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+
+volumes:
+  mongo-data:
+  neo4j-data:
+  neo4j-logs:
