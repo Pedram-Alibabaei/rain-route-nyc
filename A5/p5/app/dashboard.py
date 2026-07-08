@@ -78,18 +78,37 @@ st.markdown(
         padding-top: 1.4rem;
         padding-bottom: 2rem;
     }
-    div[data-testid="stMetric"] {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+    .rr-metric-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+        gap: 0.75rem;
+        margin: 0.35rem 0 1.25rem;
+    }
+    .rr-metric-card {
+        min-width: 0;
+        min-height: 92px;
+        border: 1px solid #374151;
         border-radius: 8px;
-        padding: 0.85rem 1rem;
+        background: #1f2937;
+        padding: 0.85rem 0.9rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
-    div[data-testid="stMetricLabel"] {
-        color: #475569;
+    .rr-metric-label {
+        color: #cbd5e1;
+        font-size: 0.82rem;
+        line-height: 1.2;
+        margin-bottom: 0.4rem;
+        white-space: normal;
     }
-    div[data-testid="stMetricValue"] {
-        color: #0f172a;
-        font-size: 1.65rem;
+    .rr-metric-value {
+        color: #f8fafc;
+        font-size: 1.35rem;
+        font-weight: 700;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+        white-space: normal;
     }
     .rr-note {
         border-left: 4px solid #2f80ed;
@@ -214,12 +233,23 @@ def trip_summary(db, query):
 
 
 def render_summary_metrics(summary):
-    col1, col2, col3, col4, col5 = st.columns(5)
-    col1.metric("Fahrten", format_int(summary.get("trips", 0)))
-    col2.metric("Dauer", f"{summary.get('avg_duration', 0):.1f} min")
-    col3.metric("Strecke", f"{summary.get('avg_distance', 0):.1f} mi")
-    col4.metric("Fahrpreis", format_money(summary.get("avg_fare", 0)))
-    col5.metric("Trinkgeld", format_money(summary.get("avg_tip", 0)))
+    metrics = [
+        ("Fahrten", format_int(summary.get("trips", 0))),
+        ("Dauer", f"{summary.get('avg_duration', 0):.1f} min"),
+        ("Strecke", f"{summary.get('avg_distance', 0):.1f} mi"),
+        ("Fahrpreis", format_money(summary.get("avg_fare", 0))),
+        ("Trinkgeld", format_money(summary.get("avg_tip", 0))),
+    ]
+    cards = "\n".join(
+        f"""
+        <div class="rr-metric-card">
+            <div class="rr-metric-label">{label}</div>
+            <div class="rr-metric-value">{value}</div>
+        </div>
+        """
+        for label, value in metrics
+    )
+    st.markdown(f'<div class="rr-metric-grid">{cards}</div>', unsafe_allow_html=True)
 
 
 def weather_distribution(db, query):
