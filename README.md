@@ -20,13 +20,15 @@ Quick start on Windows PowerShell:
 
 ```powershell
 cd .\A5\p5
-powershell -ExecutionPolicy Bypass -File .\start.ps1
+.\run-local.cmd
 ```
 
-If the databases are already imported:
+This starts Docker Desktop if needed, starts MongoDB and Neo4j, starts the Streamlit dashboard and opens both `http://localhost:8501` and `http://localhost:7476` in the browser.
+
+PowerShell alternative:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\start.ps1 -SkipImport
+powershell -ExecutionPolicy Bypass -File .\run-local.ps1
 ```
 
 See `A5/p5/README.md` for the full setup, data model, import commands and presentation notes.

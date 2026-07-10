@@ -34,6 +34,22 @@ NYC TLC Parquet + Taxi-Zonen CSV + Open-Meteo JSON
 Die Rohdaten und bereinigten Parquet-Dateien sind nicht im Git-Repository enthalten.
 Sie werden bei Bedarf mit den Skripten heruntergeladen und neu erzeugt.
 
+Ein-Klick-Start auf Windows:
+
+```powershell
+.\run-local.cmd
+```
+
+Das Script startet Docker Desktop, MongoDB, Neo4j und das Streamlit-Dashboard.
+Danach öffnet es automatisch `http://localhost:8501` und `http://localhost:7476` im Browser.
+Wenn MongoDB leer ist, importiert es automatisch den Demo-Datensatz für Januar, Juli und Dezember 2025 mit 200.000 Rohfahrten pro Monat.
+
+PowerShell-Variante:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\run-local.ps1
+```
+
 Aus diesem Ordner starten:
 
 ```powershell
@@ -44,7 +60,7 @@ Copy-Item .env.example .env
 docker compose up -d
 ```
 
-Docker Desktop muss vor `docker compose up -d` laufen.
+Docker Desktop muss vor `docker compose up -d` laufen. `run-local.ps1` übernimmt diesen Schritt automatisch.
 
 Alternativ kann der Starthelfer genutzt werden. Er erstellt bei Bedarf `.env` und `.venv`, installiert die Python-Pakete, startet MongoDB und Neo4j, importiert standardmäßig Januar, Juli und Dezember 2025 und öffnet danach das Streamlit-Dashboard:
 
@@ -116,6 +132,7 @@ Adressen:
 - Streamlit: http://localhost:8501
 - MongoDB: mongodb://localhost:27018
 - Neo4j Browser: http://localhost:7476
+- Neo4j Bolt URI: `bolt://localhost:7689`
 - Neo4j Login: `neo4j` / `taxiweatherpass`
 
 Dashboard-Tabs fuer die Live-Demo:

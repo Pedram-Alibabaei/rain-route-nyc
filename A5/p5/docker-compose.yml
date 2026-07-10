@@ -15,6 +15,8 @@ services:
       - "7689:7687"
     environment:
       NEO4J_AUTH: neo4j/taxiweatherpass
+      NEO4J_server_http_advertised__address: localhost:7476
+      NEO4J_server_bolt_advertised__address: localhost:7689
       NEO4J_server_memory_heap_initial__size: 1G
       NEO4J_server_memory_heap_max__size: 2G
     volumes:
