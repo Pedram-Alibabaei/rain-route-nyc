@@ -578,17 +578,25 @@ with weather_tab:
                 "$group": {
                     "_id": "$weather_condition",
                     "Fahrten": {"$sum": 1},
-                    "Durchschn. Dauer (min)": {"$avg": "$duration_minutes"},
-                    "Durchschn. Strecke (mi)": {"$avg": "$distance_miles"},
-                    "Durchschn. Fahrpreis ($)": {"$avg": "$fare_amount"},
-                    "Durchschn. Trinkgeld ($)": {"$avg": "$tip_amount"},
+                    "avg_duration_minutes": {"$avg": "$duration_minutes"},
+                    "avg_distance_miles": {"$avg": "$distance_miles"},
+                    "avg_fare_amount": {"$avg": "$fare_amount"},
+                    "avg_tip_amount": {"$avg": "$tip_amount"},
                 }
             },
             {"$match": {"_id": {"$in": ["dry", "rain", "snow"]}}},
             {"$sort": {"Fahrten": -1}},
         ],
     )
-    comparison_df = pd.DataFrame(comparison_rows).rename(columns={"_id": "Wetter"})
+    comparison_df = pd.DataFrame(comparison_rows).rename(
+        columns={
+            "_id": "Wetter",
+            "avg_duration_minutes": "Durchschn. Dauer (min)",
+            "avg_distance_miles": "Durchschn. Strecke (mi)",
+            "avg_fare_amount": "Durchschn. Fahrpreis ($)",
+            "avg_tip_amount": "Durchschn. Trinkgeld ($)",
+        }
+    )
     if comparison_df.empty:
         st.info("Für den Wettervergleich wurden noch keine passenden Daten gefunden.")
     else:
