@@ -1,6 +1,8 @@
 # RainRoute NYC
 
-RainRoute NYC untersucht, wie Wetterlagen die Nachfrage, Dauer und Routen von New Yorker Yellow-Taxi-Fahrten beeinflussen. Der aktuelle Demo-Stand nutzt drei Monate aus 2025: Januar, Juli und Dezember.
+Technische Dokumentation auf Deutsch. Eine englische Projektübersicht mit Voraussetzungen und Schnellstart steht in der [Haupt-README](../../README.md).
+
+RainRoute NYC untersucht Zusammenhänge zwischen Wetterlagen und beobachteten New Yorker Yellow-Taxi-Fahrten. Der aktuelle Demo-Stand nutzt Ausschnitte aus Januar, Juli und Dezember 2025. Die Auswertung ist deskriptiv und belegt keinen kausalen Wettereinfluss.
 
 Das Projekt nutzt zwei NoSQL-Datenbanken:
 
@@ -62,7 +64,7 @@ docker compose up -d
 
 Docker Desktop muss vor `docker compose up -d` laufen. `run-local.ps1` übernimmt diesen Schritt automatisch.
 
-Alternativ kann der Starthelfer genutzt werden. Er erstellt bei Bedarf `.env` und `.venv`, installiert die Python-Pakete, startet MongoDB und Neo4j, importiert standardmäßig Januar, Juli und Dezember 2025 und öffnet danach das Streamlit-Dashboard:
+Alternativ kann `start.ps1` genutzt werden. Docker Desktop muss dafür bereits laufen. Das Skript erstellt bei Bedarf `.env` und `.venv`, installiert die Python-Pakete, startet die Container, importiert standardmäßig Januar, Juli und Dezember 2025 und startet danach Streamlit im Vordergrund:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\start.ps1
@@ -182,6 +184,14 @@ Bereinigte Fahrten pro Monat:
 
 ## Vollständiger Import
 
+### Grenzen des Demo-Datensatzes
+
+`--limit 200000` verarbeitet die ersten 200.000 Datensätze der Quelldatei. Das ist keine zufällige oder zeitlich ausgewogene Stichprobe. Der Grenzwert reduziert nicht die Größe der zuvor heruntergeladenen Monatsdatei. Aus den Demo-Zahlen lassen sich weder die gesamte Monatsnachfrage noch kausale Wettereffekte ableiten. Wetterdaten stammen aus einer einzelnen NYC-Position und werden über die Abholstunde zugeordnet.
+
+`run-local.ps1` überspringt den Import, sobald MongoDB bereits Fahrten enthält. Bei geänderten Monaten oder Limits müssen die passenden Monate ausdrücklich neu importiert werden. Der Import ersetzt Daten des jeweiligen Monats; es werden nicht automatisch alte, andere Monate entfernt.
+
+### Monatsdateien vollständig verarbeiten
+
 Der Demo-Import nutzt 200.000 Rohfahrten pro Monat, damit die Pipeline schnell getestet werden kann.
 Für vollständige Monatsdatensätze:
 
@@ -248,4 +258,4 @@ Vorschlag für 15 Minuten:
 
 ## LLM-Deklaration
 
-Dieses Projektgerüst wurde mit Unterstützung von OpenAI Codex erstellt. Weitere LLM-Nutzung sollte in der finalen Abgabe dokumentiert werden.
+KI-Werkzeuge, darunter OpenAI Codex, wurden bei der Entwicklung eingesetzt. Die Anwendung ist ein Hochschulteamprojekt; individuelle Beiträge werden in der Haupt-README getrennt vom Gesamtprojekt beschrieben.
